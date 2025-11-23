@@ -1,35 +1,63 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class FirstTest {
+    @Test
+    public void checkZipCodeInput() throws InterruptedException {
 
-    public String trialCode(int number) {
-        if (number % 3 == 0 && number % 5 == 0) {
-            return "A";
-        } else if (number % 3 == 0) {
-            return "T";
-        } else if (number % 5 == 0) {
-            return "Q";
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py");
+        driver.findElement(By.xpath("//*[@type='text' and @name='zip_code']")).sendKeys("5656");
+        driver.findElement(By.xpath("//*[@type='submit' and @value='Continue']")).click();
+        Thread.sleep(2000); // пришлось добавить задержку, т.к. страница не успевала прогрузиться и элемент не находился
 
-        } else return "fff";
+        boolean isErrorAppear = driver.findElement(By.cssSelector(".error_message")).isDisplayed();
+        assertTrue(isErrorAppear, "Error message does not appear");
+
+        String errorMsgText = driver.findElement(By.cssSelector(".error_message")).getText();
+        assertEquals(errorMsgText, "Oops, error on page. ZIP code should have 5 digits");
+        driver.quit();
+    }
+
+
+    @Test
+    public void checkZipCodeFiveDigitInput() throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py");
+        driver.findElement(By.xpath("//*[@type='text' and @name='zip_code']")).sendKeys("56561");
+        driver.findElement(By.xpath("//*[@type='submit' and @value='Continue']")).click();
+        Thread.sleep(2000); // пришлось добавить задержку, т.к. страница не успевала прогрузиться и элемент не находился
+
+        boolean isRegisterBtnExist = driver.findElement(By.cssSelector("input[type='submit'][value='Register']")).isDisplayed();
+        assertTrue(isRegisterBtnExist, "Register button is not visible");
+
+        driver.quit();
     }
 
     @Test
-    public void checkIfatBothNumber() {
-        String actualResult = trialCode(90);
-        assertEquals(actualResult, "A", "Ожидалось другое значение");
-    }
+    public void FillAllFields() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.sharelane.com/cgi-bin/register.py");
+        driver.findElement(By.xpath("//*[@type='text' and @name='zip_code']")).sendKeys("56561");
+        driver.findElement(By.xpath("//*[@type='submit' and @value='Continue']")).click();
+        Thread.sleep(2000);
 
-    @Test
-    public void checkIfatTreeNumber() {
-        String actualResult = trialCode(12);
-        assertEquals(actualResult, "T", "Ожидалось другое значение");
-    }
+        driver.findElement(By.cssSelector("input[type='text'][name='first_name']")).sendKeys("fwegweg");
+        driver.findElement(By.cssSelector("input[type='text'][name='last_name']")).sendKeys("1277512g");
+        driver.findElement(By.cssSelector("input[type='text'][name='email']")).sendKeys("1252352312g");
+        driver.findElement(By.xpath("//input[@type='text' and @name='password1']")).sendKeys("12512g");
+        driver.findElement(By.xpath("//input[@type='password' and @name='password2']")).sendKeys("12512g");
+        driver.findElement(By.xpath("//input[@type='submit' and @value='Register']")).click();
 
-    @Test
-    public void checkIfatFiveNumber() {
-        String actualResult = trialCode(100);
-        assertEquals(actualResult, "Q", "Ожидалось другое значение");
+        boolean isErrorOfRegist = driver.findElement(By.cssSelector(".error_message")).isDisplayed();
+        assertTrue(isErrorOfRegist, "Oops, error on page. Some of your fields have invalid data or email was previously used");
+
+        driver.quit();
     }
 }
