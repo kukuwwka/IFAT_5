@@ -49,18 +49,14 @@ public class FirstTest {
         Thread.sleep(2000);
 
         driver.findElement(By.cssSelector("input[type='text'][name='first_name']")).sendKeys("fwegweg");
-
         driver.findElement(By.cssSelector("input[type='text'][name='last_name']")).sendKeys("1277512g");
-
         driver.findElement(By.cssSelector("input[type='text'][name='email']")).sendKeys("1252352312g");
-
         driver.findElement(By.xpath("//input[@type='text' and @name='password1']")).sendKeys("12512g");
         driver.findElement(By.xpath("//input[@type='password' and @name='password2']")).sendKeys("12512g");
-
         driver.findElement(By.xpath("//input[@type='submit' and @value='Register']")).click();
 
         boolean isErrorOfRegist = driver.findElement(By.cssSelector(".error_message")).isDisplayed();
-        assertTrue(isErrorOfRegist,"Oops, error on page. Some of your fields have invalid data or email was previously used");
+        assertTrue(isErrorOfRegist, "Oops, error on page. Some of your fields have invalid data or email was previously used");
 
         driver.quit();
     }
