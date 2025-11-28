@@ -1,23 +1,35 @@
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class LoginTest extends BaseTest {
-    @Test(description = "Проверка корректного логина", priority = 1)
-    public void checkIncorrectLogin() {
-        loginPage.open();
-        loginPage.login("locked_out_user", "secret_sauce");
 
-        assertTrue(loginPage.isErrorMsgAppear(), "Error message does not appear");
-        assertEquals(loginPage.errorMsgText(), "Epic sadface: Sorry, this user has been locked out.");
+    @DataProvider(name = "invalidData")
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."},
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"ewgewgewgewgew", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"}
+        };
     }
 
-    @Test(priority = 2, enabled = true, invocationCount = 7, alwaysRun = true)
+    @Test(description = "Проверка корректного логина", priority = 1, dataProvider = "invalidData")
+    public void checkIncorrectLogin(String user, String password, String errorMessage) {
+        loginPage.open();
+        loginPage.login(user, password);
+
+        assertTrue(loginPage.isErrorMsgAppear(), "Error message does not appear");
+        assertEquals(loginPage.errorMsgText(), errorMessage);
+    }
+
+    @Test(priority = 2, enabled = true, invocationCount = 1, alwaysRun = true)
     public void checkCorrectLogin() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
 
-        assertTrue(productsPage.isPageLoaded(), "Register button is not visible");
+        assertTrue(productsPage.isPageLoaded("Products"), "Register button is not visible");
     }
 }

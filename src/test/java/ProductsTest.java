@@ -8,10 +8,12 @@ public class ProductsTest extends BaseTest {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
 
-        productsPage.isPageLoaded();
+        productsPage.isPageLoaded("Products");
         productsPage.addToCart("Test.allTheThings() T-Shirt (Red)");
         productsPage.addToCart("Sauce Labs Onesie");
-        assertEquals(productsPage.checkGoodsQuantity(), "2");
-       // assertEquals(productsPage.checkGoodsQuantityyy(), "egwe32weg");
+        productsPage.addToCart("Sauce Labs Bolt T-Shirt");
+        productsPage.addToCart(2);
+        assertEquals(productsPage.checkGoodsQuantity(), "4");
+        // assertEquals(productsPage.checkGoodsQuantityyy(), "egwe32weg");
     }
 }
