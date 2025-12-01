@@ -14,6 +14,7 @@ public class ProductsTest extends BaseTest {
         productsPage.addToCart("Sauce Labs Bolt T-Shirt");
         productsPage.addToCart(2);
         assertEquals(productsPage.checkGoodsQuantity(), "4");
-        // assertEquals(productsPage.checkGoodsQuantityyy(), "egwe32weg");
+
+//         assertEquals(productsPage.checkGoodsQuantityyy(), "egwe32weg");
     }
 }
