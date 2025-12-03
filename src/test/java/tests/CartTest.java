@@ -1,3 +1,5 @@
+package tests;
+
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -17,7 +19,7 @@ public class CartTest extends BaseTest {
         productsPage.switchToCart();
 
         cartPage.isPageLoaded("Your Cart");
-        assertEquals(cartPage.getProductNames().size(),3);
+        assertEquals(cartPage.getProductNames().size(), 3);
         assertFalse(cartPage.getProductNames().isEmpty());
         assertTrue(cartPage.getProductNames().contains("Test.allTheThings() T-Shirt (Red)"));
     }
