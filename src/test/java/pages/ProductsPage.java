@@ -17,11 +17,6 @@ public class ProductsPage extends BasePage {
         super(driver);
     }
 
-    public boolean isPageLoaded(final String pageTitle) {
-        //  wait.until(ExpectedConditions.visibilityOfElementLocated(pageTitle));
-        return driver.findElement(By.xpath(TEXT_LOCATOR_PATTERN.formatted(pageTitle))).isDisplayed();
-    }
-
     public void addToCart(final String goodsName) {
         //By addGoodsToCart = By.xpath(String.format(ADD_TO_CAR_BUTTON_PATTERN, "Sauce Labs Bike Light"));
         By addGoodsToCart = By.xpath(ADD_TO_CART_BUTTON_PATTERN.formatted(goodsName));
@@ -36,7 +31,11 @@ public class ProductsPage extends BasePage {
         return driver.findElement(cartBadge).getText();
     }
 
-    public String checkGoodsQuantityyy() {
-        return driver.findElement(cartBadge).getDomAttribute("data-test");
+    public void switchToCart() {
+        driver.findElement(cartBadge).click();
     }
+
 }
+/*    public String checkGoodsQuantityyy() {
+        return driver.findElement(cartBadge).getDomAttribute("data-test");
+    }*/
