@@ -45,8 +45,8 @@ public class LoginTest extends BaseTest {
     @Flaky
     @Test(description = "Проверка некорректного логина", priority = 1, dataProvider = "invalidData")
     public void checkIncorrectLogin(User user, String errorMessage) {
-        loginPage.open();
-        loginPage.login(user);
+        loginPage.open()
+                .login(user);
 //        AllureUtils.takeScreenshot(driver);
         assertTrue(loginPage.isErrorMsgAppear(), "Error message does not appear");
         assertEquals(loginPage.errorMsgText(), errorMessage);
@@ -54,8 +54,8 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 2, enabled = true, invocationCount = 1, alwaysRun = true)
     public void checkCorrectLogin() {
-        loginPage.open();
-        loginPage.login(withAdminPermission());
+        loginPage.open()
+                .login(withAdminPermission());
 
         assertTrue(productsPage.isPageLoaded(PRODUCTS.getDisplayName()), "Register button is not visible");
     }

@@ -9,17 +9,19 @@ public class CartTest extends BaseTest {
 
     @Test
     public void checkGoodsInCart() {
-        loginPage.open();
-        loginPage.login(withAdminPermission());
+        loginPage.open()
+                .login(withAdminPermission());
 
-        productsPage.isPageLoaded("Products");
-        productsPage.addToCart("Test.allTheThings() T-Shirt (Red)");
-        productsPage.addToCart("Sauce Labs Onesie");
-        productsPage.addToCart("Sauce Labs Bolt T-Shirt");
+        productsPage
+                .isPageLoaded("Products");
+        productsPage.addToCart("Test.allTheThings() T-Shirt (Red)")
+                .addToCart("Sauce Labs Onesie")
+                .addToCart("Sauce Labs Bolt T-Shirt")
 //        loginPage.open("cart.html");
-        productsPage.switchToCart();
+                .switchToCart();
 
-        cartPage.isPageLoaded("Your Cart");
+        cartPage
+                .isPageLoaded("Your Cart");
         assertEquals(cartPage.getProductNames().size(), 3);
         assertFalse(cartPage.getProductNames().isEmpty());
         assertTrue(cartPage.getProductNames().contains("Test.allTheThings() T-Shirt (Red)"));
